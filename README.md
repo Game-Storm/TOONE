@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # toone
 
 > A Vue.js project
@@ -28,3 +29,7 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# TOONE
+TO ONE 是一个H5小游戏，由小数的二进制启发而来的一个数字游戏。游戏的逻辑围绕 to one 而来。
+>>>>>>> 0bcebee6017851aa138e43ebc1eb60c615625e86
