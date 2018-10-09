@@ -2,8 +2,11 @@
 <template>
   <div class="game">
     <div class="content">
-        <div class="row" v-for="(row,index) in arr" :key="index">
-            <div class="item" v-for="(item,index) in row" :key="index">{{item}}</div>
+        <div class="row" v-for="(row,i) in arr" :key="i">
+            <div  v-for="(item,j) in row" :key="j">
+              <div v-if="i==pNow[0] && j==pNow[1]" class="item active">{{item}}</div>
+              <div v-else class="item">{{item}}</div>
+            </div>
         </div> 
     </div>
   </div>
@@ -14,11 +17,12 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      arr: []
+      arr: [],
+      pNow:[0,1]
     };
   },
   created() {
-    let num = "10101010101011111";
+    let num = "00101010101011111";
     let row = 3;
     let col = 3;
     for (let i = 0; i < col; i++) {
@@ -49,4 +53,6 @@ export default {
             font-size 30px
             font-weight 600
             color #fff
+        .active 
+            background orange
 </style>
