@@ -2,8 +2,8 @@
 <template>
   <div class="game">
     <div class="content">
-        <div class="row" v-for="row in arr" :key="row">
-            <div class="item" v-for="item in row" :key="item">{{item}}</div>
+        <div class="row" v-for="(row,index) in arr" :key="index">
+            <div class="item" v-for="(item,index) in row" :key="index">{{item}}</div>
         </div> 
     </div>
   </div>
