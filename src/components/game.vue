@@ -5,6 +5,9 @@ import func from './vue-temp/vue-editor-bridge';
 import func from './vue-temp/vue-editor-bridge';
 <template>
   <div class="game" @touchstart="dropStart"  @touchend="dropEnd" @keyup="moveBlock('top')">
+    <div class="nav">
+      <div class="item" @click="refresh()">o</div>
+    </div>
     <div class="content">
         <div class="row" v-for="(row,j) in arr" :key="j">
             <div  v-for="(item,i) in row" :key="i">
@@ -22,27 +25,31 @@ export default {
   data() {
     return {
       arr: [],
-      row: 3,
-      col: 3,
+      row: 4,
+      col: 4,
       pNow: [0, 1], //当前的元素坐标
+
       eStartPositon: [] //开始滑动时位置坐标
     };
   },
   created() {
-    let num = "00101010101011111";
-    for (let i = 0; i < this.col; i++) {
-      this.arr[i] = [];
-      for (let j = 0; j < this.row; j++) {
-        // console.log(i,j,i * this.row+j)
-        this.arr[i][j] = num.slice(i * this.row + j, i * this.row + j + 1);
-        // this.arr[i][j] = 1;
-      }
-    }
-    console.log(this.arr);
+    this.refresh();
     // PC端监听键盘的上下左右
     document.onkeydown = this.keybordMove;
   },
   methods: {
+    // 初始化棋局
+    refresh: function() {
+      console.log('chongzhi')
+      let num = "00101010101011111";
+      this.arr=[];
+      for (let i = 0; i < this.col; i++) {
+        this.arr[i] = [];
+        for (let j = 0; j < this.row; j++) {
+          this.arr[i][j] = num.slice(i * this.row + j, i * this.row + j + 1);
+        }
+      }
+    },
     // 触摸事件开始
     dropStart: function(e) {
       // console.log(e)
@@ -65,16 +72,24 @@ export default {
     },
     keybordMove: function(e) {
       console.log(e);
-      switch (e.key){
-        case 'ArrowUp' : this.moveBlock('top');break;
-        case 'ArrowDown' : this.moveBlock('bottom');break;
-        case 'ArrowRight' : this.moveBlock('right');break;
-        case 'ArrowLeft' : this.moveBlock('left');break;
+      switch (e.key) {
+        case "ArrowUp":
+          this.moveBlock("top");
+          break;
+        case "ArrowDown":
+          this.moveBlock("bottom");
+          break;
+        case "ArrowRight":
+          this.moveBlock("right");
+          break;
+        case "ArrowLeft":
+          this.moveBlock("left");
+          break;
       }
     },
     // 根据已知方向移动小块
     moveBlock: function(direction) {
-      console.log('移动')
+      console.log("移动");
       if (direction == "bottom") {
         if (this.pNow[1] >= this.col - 1) {
           return;
@@ -114,55 +129,48 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.item
+  width 150px
+  height 150px
+  border-radius 20px
+  background #aaa
+  margin 10px
+  line-height 150px
+  font-size 60px
+  font-weight 600
+  color #fff
+  transition all 0.5s
+  animation blockEnter 0.3s
 .game
   width 100%
   height 100%
   display flex
+  flex-direction column
   justify-content center
   align-items center
   background #eee
+  
   .content
     background rgba(1, 1, 1, 0.1)
     overflow hidden
     border-radius 20px
     padding 10px
-    height 510px
+    display flex
+    flex-direction column
     .row
       display flex
-    .item
-      width 150px
-      height 150px
-      border-radius 20px
-      background #aaa
-      margin 10px
-      line-height 150px
-      font-size 60px
-      font-weight 600
-      color #fff
-      transition all 0.5s
-      animation blockEnter 0.3s
     .active
       background orange
       transition all 0.5s
       animation blockActiveEnter 0.3s
-
-@keyframes blockEnter {
-  50% {
+@keyframes blockEnter
+  50%
     transform scale(1.05)
-  }
-  100%{
+  100%
     transform scale(1)
-  }
-}
-
-@keyframes blockActiveEnter {
-  50% {
+@keyframes blockActiveEnter
+  50%
     transform scale(1.05)
-  }
-  100%{
+  100%
     transform scale(1)
-  }
-}
-
-
 </style>
