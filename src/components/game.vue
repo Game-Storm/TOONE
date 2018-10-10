@@ -39,18 +39,24 @@ export default {
     height 100%
     display flex
     justify-content center
+    align-items center
     background #eee
     .content
+        background rgba(1,1,1,.1)
+        overflow hidden
+        border-radius 20px
+        padding 10px
+        height 510px
         .row
             display flex
         .item
-            width 100px
-            height 100px
+            width 150px
+            height 150px
             border-radius 20px
             background #aaa
             margin 10px
-            line-height 100px
-            font-size 30px
+            line-height 150px
+            font-size 60px
             font-weight 600
             color #fff
         .active 
