@@ -36,13 +36,21 @@ export default {
     this.refresh();
     // PC端监听键盘的上下左右
     document.onkeydown = this.keybordMove;
+    // 阻止微信默认的橡皮筋效果
+    document.body.addEventListener(
+      "touchmove",
+      function(e) {
+        e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+      },
+      { passive: false }
+    ); //passive 参数不能省略，用来兼容ios和android
   },
   methods: {
     // 初始化棋局
     refresh: function() {
-      console.log('chongzhi')
+      console.log("chongzhi");
       let num = "00101010101011111";
-      this.arr=[];
+      this.arr = [];
       for (let i = 0; i < this.col; i++) {
         this.arr[i] = [];
         for (let j = 0; j < this.row; j++) {
@@ -149,7 +157,6 @@ export default {
   justify-content center
   align-items center
   background #eee
-  
   .content
     background rgba(1, 1, 1, 0.1)
     overflow hidden
