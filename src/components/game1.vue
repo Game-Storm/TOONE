@@ -12,7 +12,8 @@ import func from './vue-temp/vue-editor-bridge';
         <div class="row" v-for="(row,j) in arr" :key="j">
             <div  v-for="(item,i) in row" :key="i">
               <!-- <div v-if="(i==pNow[0] && j==pNow[1]) || (i==pNow[0] && j-1==pNow[1])" class="item active">{{item}}</div> -->
-              <div v-if="i==pNow[0] && j==pNow[1]" class="item active">{{item}}</div>
+              <!-- <div v-if="i==pNow[0] && j==pNow[1]" class="item active">{{item}}</div> -->
+              <div v-if="i==pNow[0] && j==pNow[1]" class="item active"></div>
               <div v-else class="item">{{item}}</div>
             </div>
         </div> 
@@ -26,8 +27,8 @@ export default {
   data() {
     return {
       arr: [],
-      row: 5,
-      col: 5,
+      row: 3,
+      col: 3,
       pNow: [0, 0], //当前的元素坐标
 
       eStartPositon: [] //开始滑动时位置坐标
@@ -101,7 +102,7 @@ export default {
       console.log("移动");
       let b = this.pNow[0],
         a = this.pNow[1];
-      // this.arr[a][b] = this.arr[a][b] == "1" ? "0" : "1";
+      this.arr[a][b] = this.arr[a][b] == "1" ? "0" : "1";
       if (direction == "bottom") {
         if (this.pNow[1] >= this.col - 1) {
           return;
@@ -128,7 +129,7 @@ export default {
         i = this.pNow[1];
       // console.log(this.arr)
       console.log(this.arr[i][j]);
-      this.arr[i][j] = this.arr[i][j] == "1" ? "0" : "1";
+      // this.arr[i][j] = this.arr[i][j] == "1" ? "0" : "1";
       // this.arr[i+1][j] = this.arr[i+1][j] == "1" ? "0" : "1";
       console.log(this.arr[i][j]);
       // this.arr[1][0] = "1";
@@ -172,9 +173,9 @@ export default {
     .row
       display flex
     .active
-      background orange
+      background black
       transition all 0.5s
-      animation blockActiveEnter 0.3s
+      // animation blockActiveEnter 0.3s
 @keyframes blockEnter
   0%
     transform scale(1.05)
