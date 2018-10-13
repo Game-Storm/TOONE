@@ -18,7 +18,7 @@ import func from './vue-temp/vue-editor-bridge';
                 :class="{
                   'active':i==pNow[0] && j==pNow[1],
                   'item-used':item.isUsed,
-                  'item-sucess':win
+                  'item-sucess':!(i==pNow[0] && j==pNow[1]) && win
                   }">{{item.num}}</div>
               <!-- <div v-else class="item">{{item}}</div> -->
             </div>
@@ -60,7 +60,7 @@ export default {
     refresh: function() {
       console.log(num);
       let nums = JSON.parse(JSON.stringify(num));
-      this.win=false;
+      this.win = false;
       this.pNow = [0, 0];
       this.arr = [];
       for (let i = 0; i < this.col; i++) {
@@ -158,15 +158,15 @@ export default {
     },
     //判断是否胜利逻辑
     judgeSuccess: function() {
-      let isWin=true;
+      let isWin = true;
       for (let i = 0; i < this.col; i++) {
         for (let j = 0; j < this.row; j++) {
-          if(this.arr[i][j].num==0){
-            isWin=false;
+          if (this.arr[i][j].num == 0) {
+            isWin = false;
             break;
           }
         }
-        if(!isWin) break;
+        if (!isWin) break;
       }
       this.win = isWin;
     }
