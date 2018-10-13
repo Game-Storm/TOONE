@@ -6,7 +6,7 @@ import func from './vue-temp/vue-editor-bridge';
 <template>
   <div class="game" @touchstart="dropStart"  @touchend="dropEnd" @keyup="moveBlock('top')">
     <div class="nav">
-      <div class="item" @click="refresh()">o</div>
+      <!-- <div class="item" @click="refresh()">o</div> -->
     </div>
     <div class="content">
         <div class="row" v-for="(row,j) in arr" :key="j">
@@ -51,7 +51,7 @@ export default {
     // 初始化棋局
     refresh: function() {
       console.log("chongzhi");
-      let num = "0010101010101111101010101010011";
+      let num = "0001001100101111101010101010011";
       this.arr = [];
       for (let i = 0; i < this.col; i++) {
         this.arr[i] = [];
@@ -102,7 +102,7 @@ export default {
       console.log("移动");
       let b = this.pNow[0],
         a = this.pNow[1];
-      this.arr[a][b] = this.arr[a][b] == "1" ? "0" : "1";
+      // this.arr[a][b] = this.arr[a][b] == "1" ? "0" : "1";
       if (direction == "bottom") {
         if (this.pNow[1] >= this.col - 1) {
           return;
@@ -131,6 +131,7 @@ export default {
       console.log(this.arr[i][j]);
       // this.arr[i][j] = this.arr[i][j] == "1" ? "0" : "1";
       // this.arr[i+1][j] = this.arr[i+1][j] == "1" ? "0" : "1";
+      this.arr[a][b] = this.arr[i][j] == "1" ? "0" : "1";
       console.log(this.arr[i][j]);
       // this.arr[1][0] = "1";
       // 为了视图更新
@@ -146,7 +147,8 @@ export default {
 .item
   width 150px
   height 150px
-  border-radius 20px
+  border-radius 50%
+  border 5px solid #999
   background #aaa
   margin 10px
   line-height 150px
@@ -155,6 +157,8 @@ export default {
   color #fff
   transition all 0.5s
   animation blockEnter 1s
+  animation rotateBlock 10s infinite
+  animation-direction reverse
 .game
   width 100%
   height 100%
@@ -170,6 +174,7 @@ export default {
     padding 10px
     display flex
     flex-direction column
+    animation rotateBlock 10s infinite
     .row
       display flex
     .active
@@ -181,14 +186,25 @@ export default {
     transform scale(1.05)
     // transform translateY(-1000px)
   // 80%
-  //   transform translateY(-0px)
+  // transform translateY(-0px)
   // 90%
-  //   transform translateY(-20px)
+  // transform translateY(-20px)
   100%
     transform scale(1)
+    
 @keyframes blockActiveEnter
   50%
     transform scale(1.05) rotateY(180deg)
   100%
     transform scale(1)
+
+@keyframes rotateBlock
+  25%
+    transform rotate(90deg)
+  50%
+    transform rotate(180deg)
+  75%
+    transform rotate(270deg)
+  100%
+    transform rotate(360deg)
 </style>

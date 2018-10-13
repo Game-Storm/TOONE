@@ -6,14 +6,21 @@ import func from './vue-temp/vue-editor-bridge';
 <template>
   <div class="game" @touchstart="dropStart"  @touchend="dropEnd" @keyup="moveBlock('top')">
     <div class="nav">
-      <div class="item" @click="refresh()">o</div>
+      <div class="item" @click="refresh()">◎</div>
     </div>
     <div class="content">
         <div class="row" v-for="(row,j) in arr" :key="j">
             <div  v-for="(item,i) in row" :key="i">
               <!-- <div v-if="(i==pNow[0] && j==pNow[1]) || (i==pNow[0] && j-1==pNow[1])" class="item active">{{item}}</div> -->
-              <div v-if="i==pNow[0] && j==pNow[1]" class="item active">{{item}}</div>
-              <div v-else class="item">{{item}}</div>
+              <!-- <div v-if="i==pNow[0] && j==pNow[1]" class="item active">{{item}}</div> -->
+              <div 
+                class="item" 
+                :class="{
+                  'active':i==pNow[0] && j==pNow[1],
+                  'item-used':item.isUsed,
+                  'item-sucess':win
+                  }">{{item.num}}</div>
+              <!-- <div v-else class="item">{{item}}</div> -->
             </div>
         </div> 
     </div>
@@ -21,16 +28,18 @@ import func from './vue-temp/vue-editor-bridge';
 </template>
 
 <script>
+// 引入数字逻辑
+import { num } from "../utils/num.js";
 export default {
   name: "HelloWorld",
   data() {
     return {
       arr: [],
-      row: 5,
-      col: 5,
+      row: 4,
+      col: 4,
       pNow: [0, 0], //当前的元素坐标
-
-      eStartPositon: [] //开始滑动时位置坐标
+      eStartPositon: [], //开始滑动时位置坐标
+      win: false
     };
   },
   created() {
@@ -49,13 +58,17 @@ export default {
   methods: {
     // 初始化棋局
     refresh: function() {
-      console.log("chongzhi");
-      let num = "0010101010101111101010101010011";
+      console.log(num);
+      let nums = JSON.parse(JSON.stringify(num));
+      this.win=false;
+      this.pNow = [0, 0];
       this.arr = [];
       for (let i = 0; i < this.col; i++) {
         this.arr[i] = [];
         for (let j = 0; j < this.row; j++) {
-          this.arr[i][j] = num.slice(i * this.row + j, i * this.row + j + 1);
+          // this.arr[i][j] = num.slice(i * this.row + j, i * this.row + j + 1);
+          this.arr[i][j] = nums[i * this.row + j];
+          // console.log(this.arr[i][j]);
         }
       }
     },
@@ -79,6 +92,7 @@ export default {
         this.moveBlock(direction);
       }
     },
+    // 键盘上的移动事件
     keybordMove: function(e) {
       console.log(e);
       switch (e.key) {
@@ -123,12 +137,16 @@ export default {
         }
         this.pNow[0]--;
       }
-      console.log(this.pNow);
       let j = this.pNow[0],
         i = this.pNow[1];
       // console.log(this.arr)
-      console.log(this.arr[i][j]);
-      this.arr[i][j] = this.arr[i][j] == "1" ? "0" : "1";
+      if (this.arr[i][j].isUsed) {
+        this.pNow[0] = b;
+        this.pNow[1] = a;
+        return;
+      }
+      this.arr[i][j].num = this.arr[i][j].num == "1" ? "0" : "1";
+      this.arr[i][j].isUsed = this.arr[i][j].num == "1" ? true : false;
       // this.arr[i+1][j] = this.arr[i+1][j] == "1" ? "0" : "1";
       console.log(this.arr[i][j]);
       // this.arr[1][0] = "1";
@@ -136,6 +154,21 @@ export default {
       let temp = this.arr;
       this.arr = [];
       this.arr = temp;
+      this.judgeSuccess();
+    },
+    //判断是否胜利逻辑
+    judgeSuccess: function() {
+      let isWin=true;
+      for (let i = 0; i < this.col; i++) {
+        for (let j = 0; j < this.row; j++) {
+          if(this.arr[i][j].num==0){
+            isWin=false;
+            break;
+          }
+        }
+        if(!isWin) break;
+      }
+      this.win = isWin;
     }
   }
 };
@@ -154,6 +187,12 @@ export default {
   color #fff
   transition all 0.5s
   animation blockEnter 1s
+.item-used
+  background #777
+  color #999
+.item-sucess
+  transform scale(0)
+  opacity 0
 .game
   width 100%
   height 100%
@@ -180,14 +219,16 @@ export default {
     transform scale(1.05)
     // transform translateY(-1000px)
   // 80%
-  //   transform translateY(-0px)
+  // transform translateY(-0px)
   // 90%
-  //   transform translateY(-20px)
+  // transform translateY(-20px)
   100%
     transform scale(1)
 @keyframes blockActiveEnter
   50%
-    transform scale(1.05) rotateY(180deg)
+    transform rotateY(35deg)
+  75%
+    transform scale(1.05) rotateX(35deg)
   100%
     transform scale(1)
 </style>
