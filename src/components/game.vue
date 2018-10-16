@@ -176,13 +176,13 @@ export default {
 
 <style lang="stylus" scoped>
 .item
-  width 150px
-  height 150px
+  width 100px
+  height 100px
   border-radius 20px
   background #aaa
   margin 10px
-  line-height 150px
-  font-size 60px
+  line-height 100px
+  font-size 40px
   font-weight 600
   color #fff
   transition all 0.5s
